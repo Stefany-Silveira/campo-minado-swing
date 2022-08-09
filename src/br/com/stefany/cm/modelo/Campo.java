@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 
 public class Campo {
-
     private final int linha;
     private final int coluna;
 
@@ -16,7 +15,7 @@ public class Campo {
     private List<Campo> vizinhos = new ArrayList<>();
     private List<CampoObservador> observadores = new ArrayList<>();
 
-    Campo(int linha, int coluna){
+    Campo(int linha, int coluna) {
         this.linha = linha;
         this.coluna = coluna;
     }
@@ -30,19 +29,19 @@ public class Campo {
                 .forEach(o -> o.eventoOcorreu(this, evento));
     }
 
-    boolean adicionarVizinho(Campo vizinho){
+    boolean adicionarVizinho(Campo vizinho) {
         boolean linhaDiferente = linha != vizinho.linha;
         boolean colunaDiferente = coluna != vizinho.coluna;
         boolean diagonal = linhaDiferente && colunaDiferente;
 
         int deltaLinha = Math.abs(linha - vizinho.linha);
         int deltaColuna = Math.abs(coluna - vizinho.coluna);
-        int deltaGeral = deltaColuna + deltaLinha;
+        int detalGeral = deltaColuna + deltaLinha;
 
-        if (deltaGeral == 1 && !diagonal){
+        if(detalGeral == 1 && !diagonal) {
             vizinhos.add(vizinho);
             return true;
-    } else if(deltaGeral == 2 && diagonal){
+        } else if(detalGeral == 2 && diagonal) {
             vizinhos.add(vizinho);
             return true;
         } else {
@@ -50,11 +49,11 @@ public class Campo {
         }
     }
 
-   public void alternarMarcacao() {
-        if (!aberto) {
+    public void alternarMarcacao() {
+        if(!aberto) {
             marcado = !marcado;
 
-            if (marcado) {
+            if(marcado) {
                 notificarObservadores(CampoEvento.MARCAR);
             } else {
                 notificarObservadores(CampoEvento.DESMARCAR);
@@ -63,25 +62,26 @@ public class Campo {
     }
 
     public boolean abrir() {
-        if (!aberto && !marcado) {
-            if (minado) {
-                notificarObservadores(CampoEvento.EXPLODIR );
+
+        if(!aberto && !marcado) {
+            if(minado) {
+                notificarObservadores(CampoEvento.EXPLODIR);
                 return true;
-                }
+            }
 
             setAberto(true);
-            notificarObservadores(CampoEvento.ABRIR);
 
-            if (vizinhacaSegura()) {
-                vizinhos.forEach(v -> v.abrir());
+            if(vizinhancaSegura()) {
+                vizinhos.forEach(Campo::abrir);
             }
-                return true;
-            } else {
-                return false;
-            }
+
+            return true;
+        } else {
+            return false;
         }
+    }
 
-    public boolean vizinhacaSegura() {
+    public boolean vizinhancaSegura() {
         return vizinhos.stream().noneMatch(v -> v.minado);
     }
 
@@ -97,9 +97,9 @@ public class Campo {
         return marcado;
     }
 
-     void setAberto(boolean aberto) {
-        notificarObservadores(CampoEvento.ABRIR);
-    }
+    void setAberto(boolean aberto) {
+            notificarObservadores(CampoEvento.ABRIR);
+        }
 
     public boolean isAberto() {
         return aberto;
@@ -123,7 +123,7 @@ public class Campo {
         return desvendado || protegido;
     }
 
-    public int minasNaVizinhaca() {
+    public int minasNaVizinhanca() {
         return (int) vizinhos.stream().filter(v -> v.minado).count();
     }
 
