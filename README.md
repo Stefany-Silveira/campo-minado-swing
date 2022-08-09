@@ -12,4 +12,4 @@ Comandos:
 * O botão direito do mouse marca e desmarca o campo.
 
 Objetivo:
-* Encontrar todos os campos que contém minas e marcalos com o botão direito do mouse, além de abrir todos os campos que não há minas.
+* Encontrar todos os campos que contém minas e marcá-las com o botão direito do mouse, além de abrir todos os campos que não há minas.
