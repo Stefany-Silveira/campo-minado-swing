@@ -72,7 +72,7 @@ public class Campo {
             setAberto(true);
 
             if(vizinhancaSegura()) {
-                vizinhos.forEach(Campo::abrir);
+                vizinhos.forEach(v -> v.abrir());
             }
 
             return true;
@@ -98,8 +98,12 @@ public class Campo {
     }
 
     void setAberto(boolean aberto) {
+        this.aberto = aberto;
+
+        if(aberto) {
             notificarObservadores(CampoEvento.ABRIR);
         }
+    }
 
     public boolean isAberto() {
         return aberto;
@@ -131,5 +135,6 @@ public class Campo {
         aberto = false;
         minado = false;
         marcado = false;
+        notificarObservadores(CampoEvento.REINICIAR);
     }
 }
